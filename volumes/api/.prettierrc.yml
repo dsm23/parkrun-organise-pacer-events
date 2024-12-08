@@ -1,0 +1,2 @@
+# HACK: single quotes are more ideal in the kong.yml file
+singleQuote: true
