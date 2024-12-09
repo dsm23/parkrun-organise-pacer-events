@@ -127,14 +127,28 @@ export const resetPasswordAction = async (formData: FormData) => {
   encodedRedirect("success", "/protected/reset-password", "Password updated");
 };
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export const addVolunteerAction = async (formData: FormData) => {
-  // const supabase = await createClient();
+  const supabase = await createClient();
 
   const date = formData.get("date") as string;
   const finishTime = formData.get("finishTime") as string;
 
-  console.info({ date, finishTime });
+  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase.from("volunteer_nodes").insert({
+    date,
+    finish_time: finishTime,
+    user_id: data.user?.id,
+  });
+
+  if (error) {
+    encodedRedirect(
+      "error",
+      "/protected/volunteer",
+      "Failed to update list of volunteer declarations",
+    );
+  }
+
+  return redirect("/protected");
 };
 
 export const signOutAction = async () => {
