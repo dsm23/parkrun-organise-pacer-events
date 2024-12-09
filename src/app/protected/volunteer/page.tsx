@@ -41,7 +41,7 @@ export default async function ResetPassword(props: {
                       key={`${multipleOfSeven}-mins`}
                       value={format(
                         subDays(nextSunday(addDays(today, multipleOfSeven)), 1),
-                        "dd/MM/yyyy",
+                        "yyyy/MM/dd",
                       )}
                     >
                       {format(
