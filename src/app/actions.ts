@@ -127,6 +127,16 @@ export const resetPasswordAction = async (formData: FormData) => {
   encodedRedirect("success", "/protected/reset-password", "Password updated");
 };
 
+// eslint-disable-next-line @typescript-eslint/require-await
+export const addVolunteerAction = async (formData: FormData) => {
+  // const supabase = await createClient();
+
+  const date = formData.get("date") as string;
+  const finishTime = formData.get("finishTime") as string;
+
+  console.info({ date, finishTime });
+};
+
 export const signOutAction = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
