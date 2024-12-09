@@ -4,8 +4,8 @@ import Link from "next/link";
 import { GeistSans } from "geist/font/sans";
 import DeployButton from "~/components/deploy-button";
 import { EnvVarWarning } from "~/components/env-var-warning";
+import Footer from "~/components/footer";
 import HeaderAuth from "~/components/header-auth";
-import { ThemeSwitcher } from "~/components/theme-switcher";
 import { hasEnvVars } from "~/utils/supabase/check-env-vars";
 
 import "./globals.css";
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          <main className="flex min-h-screen flex-col items-center">
+          <div className="flex min-h-screen flex-col items-center">
             <div className="flex w-full flex-1 flex-col items-center gap-20">
               <nav className="flex h-16 w-full justify-center border-b border-b-foreground/10">
                 <div className="flex w-full max-w-5xl items-center justify-between p-3 px-5 text-sm">
@@ -43,26 +43,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
                 </div>
               </nav>
-              <div className="flex max-w-5xl flex-col gap-20 p-5">
+              <main className="flex max-w-5xl flex-col gap-20 p-5">
                 {children}
-              </div>
-
-              <footer className="mx-auto flex w-full items-center justify-center gap-8 border-t py-16 text-center text-xs">
-                <p>
-                  Powered by{" "}
-                  <a
-                    href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-                    target="_blank"
-                    className="font-bold hover:underline"
-                    rel="noreferrer"
-                  >
-                    Supabase
-                  </a>
-                </p>
-                <ThemeSwitcher />
-              </footer>
+              </main>
             </div>
-          </main>
+
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>
