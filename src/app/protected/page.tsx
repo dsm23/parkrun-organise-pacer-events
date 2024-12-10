@@ -20,12 +20,14 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <>
+    <div className="grid justify-stretch">
       <pre className="max-h-32 overflow-auto rounded border p-3 font-mono text-xs">
         {JSON.stringify(dataSelect, null, 2)}
       </pre>
 
-      <Calendar />
-    </>
+      <div className="max-w-7xl">
+        <Calendar />
+      </div>
+    </div>
   );
 }

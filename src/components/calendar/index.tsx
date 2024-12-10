@@ -389,7 +389,7 @@ export default function Calendar() {
                       PB = 19:10
                     </p>
                     <p className="text-blue-500 group-hover:text-blue-700">
-                      <div>David Murdoch</div>
+                      <span>David Murdoch</span>
                     </p>
                   </a>
                 </li>
@@ -405,7 +405,7 @@ export default function Calendar() {
                       PB = 20:30
                     </p>
                     <p className="text-pink-500 group-hover:text-pink-700">
-                      <div>John Doe</div>
+                      <span>John Doe</span>
                     </p>
                   </a>
                 </li>
@@ -421,7 +421,7 @@ export default function Calendar() {
                       PB = 21:19
                     </p>
                     <p className="text-gray-500 group-hover:text-gray-700">
-                      <div>Jane Doe</div>
+                      <span>Jane Doe</span>
                     </p>
                   </a>
                 </li>
