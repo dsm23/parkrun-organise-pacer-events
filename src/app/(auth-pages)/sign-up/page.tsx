@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { signUpAction } from "~/app/actions";
+import { signInWithGoogleAction, signUpAction } from "~/app/actions";
 import { FormMessage } from "~/components/form-message";
 import { SubmitButton } from "~/components/submit-button";
 import { Input } from "~/components/ui/input";
@@ -46,6 +46,16 @@ export default async function Signup(props: {
           <SubmitButton pendingText="Signing up...">Sign up</SubmitButton>
           <FormMessage message={searchParams} />
         </div>
+      </form>
+
+      <form
+        className="mx-auto flex min-w-64 max-w-64 flex-col"
+        action={signInWithGoogleAction}
+      >
+        <SubmitButton pendingText="Signing up...">
+          Sign up with Google
+        </SubmitButton>
+        <FormMessage message={searchParams} />
       </form>
       <SmtpMessage />
     </>
