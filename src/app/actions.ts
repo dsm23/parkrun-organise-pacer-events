@@ -136,7 +136,7 @@ export const addVolunteerAction = async (formData: FormData) => {
   const { data } = await supabase.auth.getUser();
   const { error } = await supabase.from("volunteer_nodes").insert({
     date,
-    finish_time: finishTime,
+    finish_time: Number(finishTime),
     user_id: data.user?.id,
   });
 
