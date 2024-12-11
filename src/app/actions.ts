@@ -151,6 +151,32 @@ export const addVolunteerAction = async (formData: FormData) => {
   return redirect("/protected");
 };
 
+export const signInWithGoogleAction = async () => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${process.env.SITE_URL}/auth/callback`,
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
+        redirectTo: `${process.env.SUPABASE_PUBLIC_URL}/auth/v1/callback`,
+      },
+    },
+  });
+
+  if (error) {
+    return encodedRedirect("error", "/sign-in", error.message);
+  }
+
+  if (data.url) {
+    redirect(data.url);
+  }
+
+  return redirect("/protected");
+};
+
 export const signOutAction = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
