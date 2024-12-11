@@ -43,10 +43,10 @@ importers:
         version: 1.1.4(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@supabase/ssr':
         specifier: ^0.5.2
-        version: 0.5.2(@supabase/supabase-js@2.47.3)
+        version: 0.5.2(@supabase/supabase-js@2.47.4)
       '@supabase/supabase-js':
         specifier: ^2.47.2
-        version: 2.47.3
+        version: 2.47.4
       '@t3-oss/env-nextjs':
         specifier: ^0.11.1
         version: 0.11.1(typescript@5.7.2)(zod@3.24.1)
@@ -2424,8 +2424,8 @@ packages:
   '@supabase/storage-js@2.7.1':
     resolution: {integrity: sha512-asYHcyDR1fKqrMpytAS1zjyEfvxuOIp1CIXX7ji4lHHcJKqyk+sLl/Vxgm4sN6u8zvuUtae9e4kDxQP2qrwWBA==}
 
-  '@supabase/supabase-js@2.47.3':
-    resolution: {integrity: sha512-AmwTyHtOXdfjLVKiM+neYItB62T4gAl1jV8ZrIg3yp1Z1NICzYfsujJDSuELkrLkYvU/RGfZXpIBheDTt7fmwA==}
+  '@supabase/supabase-js@2.47.4':
+    resolution: {integrity: sha512-E55lLvQkr3TVeUfHNZp3XTqnzKDHXLgOvD5CWe5MEz5tX/DJJmcxZpD+CiLsgtCszM4GQJGO6y0N9g7AwFdfyQ==}
 
   '@swc/core-darwin-arm64@1.10.0':
     resolution: {integrity: sha512-wCeUpanqZyzvgqWRtXIyhcFK3CqukAlYyP+fJpY2gWc/+ekdrenNIfZMwY7tyTFDkXDYEKzvn3BN/zDYNJFowQ==}
@@ -10338,9 +10338,9 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@supabase/ssr@0.5.2(@supabase/supabase-js@2.47.3)':
+  '@supabase/ssr@0.5.2(@supabase/supabase-js@2.47.4)':
     dependencies:
-      '@supabase/supabase-js': 2.47.3
+      '@supabase/supabase-js': 2.47.4
       '@types/cookie': 0.6.0
       cookie: 0.7.2
 
@@ -10348,7 +10348,7 @@ snapshots:
     dependencies:
       '@supabase/node-fetch': 2.6.15
 
-  '@supabase/supabase-js@2.47.3':
+  '@supabase/supabase-js@2.47.4':
     dependencies:
       '@supabase/auth-js': 2.66.1
       '@supabase/functions-js': 2.4.3
