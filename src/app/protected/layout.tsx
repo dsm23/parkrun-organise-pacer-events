@@ -1,5 +1,6 @@
 import type { FunctionComponent, ReactNode } from "react";
-import { ChevronUp, User2 } from "lucide-react";
+import Link from "next/link";
+import { ChevronRightIcon, ChevronUp, User2 } from "lucide-react";
 import Footer from "~/components/footer";
 import Header from "~/components/header";
 import {
@@ -12,6 +13,9 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -37,7 +41,41 @@ const Layout: FunctionComponent<Props> = async ({ children }) => {
     <SidebarProvider>
       <Sidebar collapsible="icon">
         <SidebarHeader />
-        <SidebarContent />
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Parkruns</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {[
+                  {
+                    name: "Chalkwell Beach",
+                    searchParams: new URLSearchParams([
+                      ["parkrun", "Chalkwell Beach"],
+                    ]),
+                  },
+                  {
+                    name: "Southend",
+                    searchParams: new URLSearchParams([
+                      ["parkrun", "Southend"],
+                    ]),
+                  },
+                ].map((parkrun) => (
+                  <SidebarMenuItem key={parkrun.name}>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href={`/protected?${parkrun.searchParams.toString()}`}
+                        replace
+                      >
+                        <ChevronRightIcon />
+                        <span>{parkrun.name}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
         <SidebarSeparator />
         <SidebarFooter>
           <SidebarMenu>
