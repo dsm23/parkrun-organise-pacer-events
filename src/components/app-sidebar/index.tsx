@@ -40,32 +40,23 @@ const AppSidebar: FunctionComponent<Props> = ({ user }) => {
           <SidebarGroupLabel>Parkruns</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {[
-                {
-                  name: "Chalkwell Beach",
-                  searchParams: new URLSearchParams({
-                    parkrun: "Chalkwell Beach",
-                  }),
-                },
-                {
-                  name: "Southend",
-                  searchParams: new URLSearchParams({ parkrun: "Southend" }),
-                },
-              ].map((parkrun) => (
-                <SidebarMenuItem key={parkrun.name}>
+              {["Chalkwell Beach", "Southend"].map((parkrun) => (
+                <SidebarMenuItem key={parkrun}>
                   <SidebarMenuButton
                     asChild
-                    isActive={
-                      parkrun.searchParams.get("parkrun") ===
-                      searchParams.get("parkrun")
-                    }
+                    isActive={parkrun === searchParams.get("parkrun")}
                   >
                     <Link
-                      href={`/protected?${parkrun.searchParams.toString()}`}
+                      href={{
+                        pathname: "/protected",
+                        query: {
+                          parkrun,
+                        },
+                      }}
                       replace
                     >
                       <ChevronRightIcon />
-                      <span>{parkrun.name}</span>
+                      <span>{parkrun}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

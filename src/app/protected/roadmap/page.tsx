@@ -56,6 +56,7 @@ export default function Roadmap() {
         <CheckboxWithLabel>Microsoft login</CheckboxWithLabel>
         <CheckboxWithLabel>Apple login</CheckboxWithLabel>
         <CheckboxWithLabel>GitHub login</CheckboxWithLabel>
+        <CheckboxWithLabel>DM me for in-app support</CheckboxWithLabel>
       </div>
     </div>
   );
