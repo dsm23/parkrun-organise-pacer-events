@@ -35,7 +35,7 @@ export default function Roadmap() {
         <h1 className="text-2xl font-medium">Roadmap</h1>
         <Separator />
         <CheckboxWithLabel checked>Add Google login</CheckboxWithLabel>
-        <CheckboxWithLabel>
+        <CheckboxWithLabel checked>
           Add active styles to sidebar links
         </CheckboxWithLabel>
         <CheckboxWithLabel>Add profile page</CheckboxWithLabel>

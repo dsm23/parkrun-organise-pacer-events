@@ -1,6 +1,6 @@
 import type { FunctionComponent } from "react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { permanentRedirect, redirect, RedirectType } from "next/navigation";
 import { addDays, nextSunday, subDays } from "date-fns";
 import { PlusIcon } from "lucide-react";
 import AccordionSection from "~/components/accordion-section";
@@ -16,7 +16,16 @@ type Props = {
 const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
   const supabase = await createClient();
 
-  const parkrun = (await searchParams).parkrun ?? "Southend";
+  const { parkrun } = await searchParams;
+
+  if (!parkrun) {
+    const urlSearchParams = new URLSearchParams({ parkrun: "Southend" });
+
+    permanentRedirect(
+      `/protected?${urlSearchParams.toString()}`,
+      RedirectType.replace,
+    );
+  }
 
   const today = new Date();
   const dates = Array.from({ length: 50 }, (_, i) =>
@@ -26,6 +35,10 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/sign-in");
+  }
 
   const res = await supabase
     .from("volunteer_nodes")
@@ -37,10 +50,6 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
     .order("finish_time", { ascending: true });
 
   const data = res.data ?? [];
-
-  if (!user) {
-    return redirect("/sign-in");
-  }
 
   return (
     <div className="grid justify-stretch">
@@ -64,7 +73,11 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
 
       <Accordion type="multiple">
         {dates.map((date) => (
-          <AccordionSection data={data} date={date} />
+          <AccordionSection
+            key={`accordion-item-${date.toString()}`}
+            data={data}
+            date={date}
+          />
         ))}
       </Accordion>
 

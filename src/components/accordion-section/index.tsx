@@ -33,7 +33,7 @@ const AccordionSection: FunctionComponent<Props> = ({ data, date }) => {
   );
 
   return (
-    <AccordionItem key={`accordion-item-${strDate}`} value={strDate}>
+    <AccordionItem value={strDate}>
       <AccordionTrigger>
         {strDate} ({arrEvents.length})
       </AccordionTrigger>
