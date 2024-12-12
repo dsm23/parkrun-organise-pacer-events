@@ -48,6 +48,10 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
         Pacer event organiser
       </h1>
 
+      <Button variant="link" asChild className="w-fit">
+        <Link href="/protected/roadmap">Click here to see the Roadmap</Link>
+      </Button>
+
       <Button className="mt-10 w-fit" asChild>
         <Link href="/protected/volunteer">
           Volunteer <PlusIcon className="size-6" />
