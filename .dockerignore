@@ -1,0 +1,9 @@
+Dockerfile
+.dockerignore
+compose.yml
+node_modules
+npm-debug.log
+pnpm-debug.log
+README.md
+.next
+.git
