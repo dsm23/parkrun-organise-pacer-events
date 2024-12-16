@@ -138,12 +138,14 @@ export const addVolunteerAction = async (formData: FormData) => {
 
   const date = formData.get("date") as string;
   const finishTime = formData.get("finishTime") as string;
+  const location = formData.get("location") as string;
 
   const { data } = await supabase.auth.getUser();
   const { error } = await supabase.from("volunteer_nodes").insert({
     date,
     finish_time: Number(finishTime),
     user_id: data.user?.id,
+    location_id: Number(location),
   });
 
   if (error) {
@@ -167,7 +169,6 @@ export const signInWithGoogleAction = async () => {
       queryParams: {
         access_type: "offline",
         prompt: "consent",
-        redirectTo: `${process.env.SUPABASE_PUBLIC_URL}/auth/v1/callback`,
       },
     },
   });
