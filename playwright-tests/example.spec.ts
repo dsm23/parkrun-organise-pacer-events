@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 test("has title", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page).toHaveTitle(/Next.js and Supabase Starter Kit/);
+  await expect(page).toHaveTitle(/Parkrun pacer events/);
 });
 
 test("has heading", async ({ page }) => {
@@ -12,7 +12,7 @@ test("has heading", async ({ page }) => {
 
   await expect(
     page.getByRole("heading", {
-      name: "Delete this",
+      name: "Parkrun pacer event organiser",
     }),
   ).toBeVisible();
 });
