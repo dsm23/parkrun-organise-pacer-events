@@ -32,7 +32,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.4",
     "@supabase/ssr": "^0.5.2",
-    "@supabase/supabase-js": "^2.47.2",
+    "@supabase/supabase-js": "^2.47.8",
     "@t3-oss/env-nextjs": "^0.11.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -76,7 +76,7 @@
     "autoprefixer": "10.4.20",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^9.16.0",
+    "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-mdx": "^3.1.5",
     "eslint-plugin-react": "^7.37.2",
@@ -104,7 +104,7 @@
     "tailwindcss": "3.4.16",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.7.2",
-    "typescript-eslint": "^8.17.0"
+    "typescript-eslint": "^8.18.0"
   },
   "packageManager": "pnpm@9.15.0"
 }

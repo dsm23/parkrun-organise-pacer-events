@@ -6,7 +6,10 @@ import { createClient } from "~/utils/supabase/server";
 import { encodedRedirect } from "~/utils/utils";
 
 export const signUpAction = async (formData: FormData) => {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const email = formData.get("email")?.toString();
+
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const password = formData.get("password")?.toString();
   const supabase = await createClient();
   const origin = (await headers()).get("origin") ?? "";
@@ -57,9 +60,12 @@ export const signInAction = async (formData: FormData) => {
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const email = formData.get("email")?.toString();
   const supabase = await createClient();
   const origin = (await headers()).get("origin") ?? "";
+
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const callbackUrl = formData.get("callbackUrl")?.toString();
 
   if (!email) {
