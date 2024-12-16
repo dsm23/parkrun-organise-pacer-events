@@ -167,7 +167,6 @@ export const signInWithGoogleAction = async () => {
       queryParams: {
         access_type: "offline",
         prompt: "consent",
-        redirectTo: `${process.env.SUPABASE_PUBLIC_URL}/auth/v1/callback`,
       },
     },
   });
