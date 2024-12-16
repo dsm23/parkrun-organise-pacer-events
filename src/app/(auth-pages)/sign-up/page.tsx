@@ -5,7 +5,6 @@ import { SubmitButton } from "~/components/submit-button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import type { Message } from "~/components/form-message";
-import { SmtpMessage } from "../smtp-message";
 
 export default async function Signup(props: {
   searchParams: Promise<Message>;
@@ -57,7 +56,6 @@ export default async function Signup(props: {
         </SubmitButton>
         <FormMessage message={searchParams} />
       </form>
-      <SmtpMessage />
     </>
   );
 }
