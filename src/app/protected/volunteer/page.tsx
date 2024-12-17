@@ -87,6 +87,24 @@ export default async function ResetPassword(props: {
               </SelectContent>
             </Select>
           </fieldset>
+          <fieldset className="space-y-1">
+            <Label htmlFor="location">
+              Which location would you like to volunteer as?
+            </Label>
+            <Select name="location" defaultValue="2">
+              <SelectTrigger>
+                <SelectValue placeholder="Select a location" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Location</SelectLabel>
+
+                  <SelectItem value="1">Chalkwell Beach</SelectItem>
+                  <SelectItem value="2">Southend</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </fieldset>
           <SubmitButton>Submit</SubmitButton>
           <FormMessage message={searchParams} />
         </form>
