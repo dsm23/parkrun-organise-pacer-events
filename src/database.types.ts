@@ -70,30 +70,39 @@ export type Database = {
         };
         Insert: {
           created_at?: string;
-          id?: number;
+          id?: never;
           name?: string | null;
           url?: string | null;
         };
         Update: {
           created_at?: string;
-          id?: number;
+          id?: never;
           name?: string | null;
           url?: string | null;
         };
         Relationships: [];
       };
-      users: {
+      profiles: {
         Row: {
           email: string | null;
+          full_name: string | null;
           id: string;
+          updated_at: string | null;
+          username: string | null;
         };
         Insert: {
           email?: string | null;
+          full_name?: string | null;
           id: string;
+          updated_at?: string | null;
+          username?: string | null;
         };
         Update: {
           email?: string | null;
+          full_name?: string | null;
           id?: string;
+          updated_at?: string | null;
+          username?: string | null;
         };
         Relationships: [];
       };
@@ -103,36 +112,36 @@ export type Database = {
           date: string | null;
           finish_time: number | null;
           id: number;
-          location_id: number | null;
-          user_id: string | null;
+          location_id: number;
+          user_id: string;
         };
         Insert: {
           created_at?: string;
           date?: string | null;
           finish_time?: number | null;
-          id?: number;
-          location_id?: number | null;
-          user_id?: string | null;
+          id?: never;
+          location_id: number;
+          user_id: string;
         };
         Update: {
           created_at?: string;
           date?: string | null;
           finish_time?: number | null;
-          id?: number;
-          location_id?: number | null;
-          user_id?: string | null;
+          id?: never;
+          location_id?: number;
+          user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "volunteer_nodes_user_id_fkey";
-            columns: ["user_id"];
-            referencedRelation: "users";
+            foreignKeyName: "volunteer_nodes_location_id_fkey";
+            columns: ["location_id"];
+            referencedRelation: "locations";
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "volunteernodes_location_id_fkey";
-            columns: ["location_id"];
-            referencedRelation: "locations";
+            foreignKeyName: "volunteer_nodes_user_id_fkey";
+            columns: ["user_id"];
+            referencedRelation: "profiles";
             referencedColumns: ["id"];
           },
         ];
