@@ -11,7 +11,7 @@ const Layout: FunctionComponent<Props> = ({ children }) => (
     <div className="flex w-full flex-1 flex-col items-center gap-20">
       <Header />
       <main className="flex max-w-5xl flex-col gap-20 p-5">
-        <div className="flex max-w-7xl flex-col items-start gap-12">
+        <div className="flex max-w-7xl flex-col items-start gap-2">
           {children}
         </div>
       </main>
