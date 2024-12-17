@@ -141,19 +141,21 @@ export const addVolunteerAction = async (formData: FormData) => {
   const location = formData.get("location") as string;
 
   const { data } = await supabase.auth.getUser();
-  const { error } = await supabase.from("volunteer_nodes").insert({
-    date,
-    finish_time: Number(finishTime),
-    user_id: data.user?.id,
-    location_id: Number(location),
-  });
+  if (data.user) {
+    const { error } = await supabase.from("volunteer_nodes").insert({
+      date,
+      finish_time: Number(finishTime),
+      user_id: data.user.id,
+      location_id: Number(location),
+    });
 
-  if (error) {
-    encodedRedirect(
-      "error",
-      "/protected/volunteer",
-      "Failed to update list of volunteer declarations",
-    );
+    if (error) {
+      encodedRedirect(
+        "error",
+        "/protected/volunteer",
+        "Failed to update list of volunteer declarations",
+      );
+    }
   }
 
   return redirect("/protected");

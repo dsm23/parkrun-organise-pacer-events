@@ -43,7 +43,7 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
   const res = await supabase
     .from("volunteer_nodes")
     .select(
-      "date, finishTime:finish_time, location:locations(name), user:users(email)",
+      "date, finishTime:finish_time, location:locations(name), user:profiles(email)",
     )
     .eq("locations.name", parkrun)
     .not("location", "is", null)
