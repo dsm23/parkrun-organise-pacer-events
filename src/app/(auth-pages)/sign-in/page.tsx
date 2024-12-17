@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { signInAction, signInWithGoogleAction } from "~/app/actions";
+import {
+  signInAction,
+  signInWithGithubAction,
+  signInWithGoogleAction,
+} from "~/app/actions";
 import { FormMessage } from "~/components/form-message";
 import { SubmitButton } from "~/components/submit-button";
 import { Input } from "~/components/ui/input";
@@ -52,6 +56,15 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           Sign in with Google
         </SubmitButton>
         <FormMessage message={searchParams} />
+      </form>
+
+      <form
+        className="flex min-w-64 flex-1 flex-col"
+        action={signInWithGithubAction}
+      >
+        <SubmitButton pendingText="Signing In...">
+          Sign in with GitHub
+        </SubmitButton>
       </form>
     </>
   );
