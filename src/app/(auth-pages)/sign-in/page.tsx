@@ -5,7 +5,10 @@ import {
   signInWithGoogleAction,
 } from "~/app/actions";
 import { FormMessage } from "~/components/form-message";
+import OrContinueWith from "~/components/or-continue-with";
 import { SubmitButton } from "~/components/submit-button";
+import GitHub from "~/components/svgs/github";
+import Google from "~/components/svgs/google";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import type { Message } from "~/components/form-message";
@@ -14,7 +17,7 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
   const searchParams = await props.searchParams;
   return (
     <>
-      <form className="flex min-w-64 flex-1 flex-col" action={signInAction}>
+      <form className="min-w-64 flex-1" action={signInAction}>
         <h1 className="text-2xl font-medium">Sign in</h1>
         <p className="text-sm text-foreground">
           Don't have an account?{" "}
@@ -48,22 +51,29 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
         </div>
       </form>
 
+      <OrContinueWith />
+
       <form
         className="flex min-w-64 flex-1 flex-col"
         action={signInWithGoogleAction}
       >
-        <SubmitButton pendingText="Signing In...">
-          Sign in with Google
+        <SubmitButton
+          className="flex items-center gap-x-2"
+          pendingText="Signing In..."
+        >
+          <Google /> Sign in with Google
         </SubmitButton>
-        <FormMessage message={searchParams} />
       </form>
 
       <form
         className="flex min-w-64 flex-1 flex-col"
         action={signInWithGithubAction}
       >
-        <SubmitButton pendingText="Signing In...">
-          Sign in with GitHub
+        <SubmitButton
+          className="flex items-center gap-x-2"
+          pendingText="Signing In..."
+        >
+          <GitHub /> Sign in with GitHub
         </SubmitButton>
       </form>
     </>
