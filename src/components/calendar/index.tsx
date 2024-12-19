@@ -1,435 +1,191 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { Fragment, useState } from "react";
+import type { FunctionComponent } from "react";
+import Link from "next/link";
+import { addDays, format, formatISO, nextSunday, subDays } from "date-fns";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "~/components/ui/button";
 import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EllipsisHorizontalIcon,
-} from "@heroicons/react/20/solid";
-import { addDays, format, nextSunday, subDays } from "date-fns";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "~/components/carousel";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+import { cn } from "~/utils/cn";
 
-export default function Calendar() {
-  const container = useRef<HTMLDivElement>(null);
-  const containerNav = useRef<HTMLDivElement>(null);
-  const containerOffset = useRef<HTMLDivElement>(null);
-  const [weekIndex, setWeekIndex] = useState(0);
+type Props = {
+  data: {
+    date: string | null;
+    finishTime: number | null;
+    location: {
+      name: string | null;
+    };
+    user: {
+      email: string | null;
+    };
+  }[];
+};
+
+const Calendar: FunctionComponent<Props> = ({ data }) => {
+  const [weekView, setWeekView] = useState(0);
+  const [isMonthView, setMonthView] = useState(true);
   const today = new Date();
-  const dates = Array.from({ length: 7 }, (_, i) => (i + weekIndex) * 7);
+  const multiplesOfSeven = Array.from(
+    { length: isMonthView ? 4 : 1 },
+    (_, i) => (i + weekView) * 7,
+  );
 
-  const handlePreviousClick = () => {
-    setWeekIndex((prevWeekIndex) => Math.max(0, prevWeekIndex + 1));
-  };
+  const volunteerTimes = [
+    18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 38,
+    40,
+  ];
 
   const handleNextClick = () => {
-    setWeekIndex((prevWeekIndex) => Math.min(52, prevWeekIndex + 1));
+    setWeekView((prevWeekView) => Math.min(51, prevWeekView + 1));
   };
 
-  useEffect(() => {
-    // Set the container scroll position based on the current time.
-    if (container.current) {
-      container.current.scrollTop =
-        (container.current.scrollHeight -
-          (containerNav.current?.offsetHeight ?? 0) -
-          (containerOffset.current?.offsetHeight ?? 0)) /
-        1440;
-    }
-  }, []);
+  const handlePrevClick = () => {
+    setWeekView((prevWeekView) => Math.max(0, prevWeekView - 1));
+  };
 
   return (
     <div className="flex h-full flex-col">
-      <Carousel>
-        <CarouselContent>
-          <CarouselItem>This week</CarouselItem>
-          <CarouselItem>Next week</CarouselItem>
-          {Array.from({ length: 50 }, (_, i) => (
-            <CarouselItem key={`in-english-${i}`}>{i + 2} weeks</CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-      <header className="flex flex-none items-center justify-end border-b border-gray-200 px-6 py-4">
+      <header className="flex flex-none items-center justify-end px-6 py-4">
         <div className="flex items-center">
-          <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
-            <button
-              type="button"
-              className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
-              onClick={handlePreviousClick}
-            >
-              <span className="sr-only">Previous week</span>
-              <ChevronLeftIcon className="size-5" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
-            >
-              This week
-            </button>
-            <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
-            <button
-              type="button"
-              className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
-              onClick={handleNextClick}
-            >
-              <span className="sr-only">Next week</span>
-              <ChevronRightIcon className="size-5" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="hidden md:ml-4 md:flex md:items-center">
-            <Menu as="div" className="relative">
-              <MenuButton
-                type="button"
-                className="flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-              >
-                Week view
-                <ChevronDownIcon
-                  className="-mr-1 size-5 text-gray-400"
-                  aria-hidden="true"
-                />
-              </MenuButton>
+          <div className="flex items-center gap-x-3">
+            <Button variant="outline" size="icon" onClick={handlePrevClick}>
+              <ChevronLeft className="size-4" />
+            </Button>
 
-              <MenuItems
-                transition
-                className="absolute right-0 z-10 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-              >
-                <div className="py-1">
-                  <MenuItem>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                    >
-                      Day view
-                    </a>
-                  </MenuItem>
-                  <MenuItem>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                    >
-                      Week view
-                    </a>
-                  </MenuItem>
-                  <MenuItem>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                    >
-                      Month view
-                    </a>
-                  </MenuItem>
-                </div>
-              </MenuItems>
-            </Menu>
-            <div className="ml-6 h-6 w-px bg-gray-300" />
-            <button
-              type="button"
-              className="ml-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Add event
-            </button>
-          </div>
-          <Menu as="div" className="relative ml-6 md:hidden">
-            <MenuButton className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">
-              <span className="sr-only">Open menu</span>
-              <EllipsisHorizontalIcon className="size-5" aria-hidden="true" />
-            </MenuButton>
+            {weekView === 0 && <div>This week</div>}
+            {weekView === 1 && <div>Next week</div>}
 
-            <MenuItems
-              transition
-              className="absolute right-0 z-10 mt-3 w-36 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-            >
-              <div className="py-1">
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+            {Array.from({ length: 50 }, (_, i) => (
+              <Fragment key={`in-english-${i}`}>
+                {weekView === i + 2 && <div>{i + 2} weeks</div>}
+              </Fragment>
+            ))}
+
+            <Button variant="outline" size="icon" onClick={handleNextClick}>
+              <ChevronRight className="size-4" />
+            </Button>
+            <div className="hidden md:block">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-x-2"
                   >
-                    Create event
-                  </a>
-                </MenuItem>
-              </div>
-              <div className="py-1">
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                  >
-                    Go to this week
-                  </a>
-                </MenuItem>
-              </div>
-              <div className="py-1">
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                    {isMonthView ? "Month" : "Day"} view{" "}
+                    <ChevronDown className="size-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end">
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setMonthView(false);
+                    }}
                   >
                     Day view
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                  >
-                    Week view
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setMonthView(true);
+                    }}
                   >
                     Month view
-                  </a>
-                </MenuItem>
-              </div>
-            </MenuItems>
-          </Menu>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
         </div>
       </header>
 
-      <div
-        ref={container}
-        className="isolate flex flex-auto flex-col overflow-auto bg-white"
-      >
+      <div className="grid grid-cols-[4.5rem_minmax(0,_1fr)]">
+        <div className="border-b border-r border-foreground" />
         <div
-          style={{ width: "165%" }}
-          className="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full"
+          className={cn("grid grid-cols-1", {
+            "md:grid-cols-4": isMonthView,
+          })}
         >
-          <div
-            ref={containerNav}
-            className="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black/5 sm:pr-8"
-          >
-            <div className="grid grid-cols-7 text-sm/6 text-gray-500 sm:hidden">
-              {dates.map((multipleOfSeven) => (
-                <button
-                  type="button"
-                  key={`small-days-${multipleOfSeven}`}
-                  className="flex flex-col items-center pb-3 pt-2"
-                >
-                  <span className="mt-1 flex items-center justify-center rounded-md bg-indigo-600 font-semibold text-white">
-                    {format(
-                      subDays(nextSunday(addDays(today, multipleOfSeven)), 1),
-                      "dd/MM",
-                    )}
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            <div className="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm/6 text-gray-500 sm:grid">
-              <div className="col-end-1 w-14" />
-
-              {dates.map((multipleOfSeven) => (
-                <div
-                  key={`medium-days-${multipleOfSeven}`}
-                  className="flex items-center justify-center py-3"
-                >
-                  <span className="items-center justify-center font-semibold text-gray-900">
-                    {format(
-                      subDays(nextSunday(addDays(today, multipleOfSeven)), 1),
-                      "dd/MM/yyyy",
-                    )}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-auto">
-            <div className="sticky left-0 z-10 w-14 flex-none bg-white ring-1 ring-gray-100" />
-            <div className="grid flex-auto grid-cols-1 grid-rows-1">
-              {/* Horizontal lines */}
-              <div
-                className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
-                style={{
-                  gridTemplateRows: "repeat(20, minmax(4.5rem, 1fr))",
-                }}
-              >
-                <div ref={containerOffset} className="row-end-1 h-7" />
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    18 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    19 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    20 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    21 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    22 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    23 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    24 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    25 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    26 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    27 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    28 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    29 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    30 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    31 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    32 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    33 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    34 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    36 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    38 mins
-                  </div>
-                </div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 w-14 pr-2 text-right text-xs/5 text-gray-400">
-                    40 mins
-                  </div>
-                </div>{" "}
+          {multiplesOfSeven.map((multipleOfSeven) => (
+            <Fragment key={`${multipleOfSeven}-calendar-top`}>
+              <div className="hidden items-center justify-center border-b border-r border-foreground font-semibold first:grid md:grid lg:hidden lg:first:hidden">
+                {format(
+                  subDays(nextSunday(addDays(today, multipleOfSeven)), 1),
+                  "P",
+                )}
               </div>
 
-              {/* Vertical lines */}
-              <div className="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
-                <div className="col-start-1 row-span-full" />
-                <div className="col-start-2 row-span-full" />
-                <div className="col-start-3 row-span-full" />
-                <div className="col-start-4 row-span-full" />
-                <div className="col-start-5 row-span-full" />
-                <div className="col-start-6 row-span-full" />
-                <div className="col-start-7 row-span-full" />
-                <div className="col-start-8 row-span-full w-8" />
+              <div className="hidden items-center justify-center border-b border-r border-foreground font-semibold lg:grid lg:first:grid">
+                {format(
+                  subDays(nextSunday(addDays(today, multipleOfSeven)), 1),
+                  "PP",
+                )}
               </div>
-
-              {/* Events */}
-              <ol
-                className="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:grid-cols-7 sm:pr-8"
-                style={{
-                  gridTemplateRows: "1.75rem repeat(100, minmax(0, 1fr)) auto",
-                }}
-              >
-                <li
-                  className="relative mt-px flex sm:col-start-3"
-                  style={{ gridRow: "12 / span 5" }}
-                >
-                  <a
-                    href="#"
-                    className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs/5 hover:bg-blue-100"
-                  >
-                    <p className="order-1 font-semibold text-blue-700">
-                      PB = 19:10
-                    </p>
-                    <p className="text-blue-500 group-hover:text-blue-700">
-                      <span>David Murdoch</span>
-                    </p>
-                  </a>
-                </li>
-                <li
-                  className="relative mt-px flex sm:col-start-3"
-                  style={{ gridRow: "17 / span 5" }}
-                >
-                  <a
-                    href="#"
-                    className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-pink-50 p-2 text-xs/5 hover:bg-pink-100"
-                  >
-                    <p className="order-1 font-semibold text-pink-700">
-                      PB = 20:30
-                    </p>
-                    <p className="text-pink-500 group-hover:text-pink-700">
-                      <span>John Doe</span>
-                    </p>
-                  </a>
-                </li>
-                <li
-                  className="relative mt-px hidden sm:col-start-6 sm:flex"
-                  style={{ gridRow: "22 / span 5" }}
-                >
-                  <a
-                    href="#"
-                    className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-gray-100 p-2 text-xs/5 hover:bg-gray-200"
-                  >
-                    <p className="order-1 font-semibold text-gray-700">
-                      PB = 21:19
-                    </p>
-                    <p className="text-gray-500 group-hover:text-gray-700">
-                      <span>Jane Doe</span>
-                    </p>
-                  </a>
-                </li>
-              </ol>
-            </div>
-          </div>
+            </Fragment>
+          ))}
         </div>
+
+        {volunteerTimes.map((xAxisTime) => (
+          <Fragment key={`${xAxisTime}-calendar-row`}>
+            <div className="min-h-16 border-b border-r border-foreground pr-1">
+              {xAxisTime}mins
+            </div>
+            <div
+              className={cn("grid grid-cols-1", {
+                "md:grid-cols-4": isMonthView,
+              })}
+            >
+              {multiplesOfSeven.map((multipleOfSeven) => (
+                <div
+                  key={`${xAxisTime}-item-${multipleOfSeven}`}
+                  className="hidden gap-2 border-b border-r border-muted-foreground p-2 first:grid md:grid"
+                >
+                  {data
+                    .filter(
+                      ({ finishTime, date }) =>
+                        finishTime === xAxisTime &&
+                        date ===
+                          formatISO(
+                            subDays(
+                              nextSunday(addDays(today, multipleOfSeven)),
+                              1,
+                            ),
+                            { representation: "date" },
+                          ),
+                    )
+                    .map((volunteer, index) => (
+                      <Link
+                        href="#"
+                        key={`${volunteer.user.email}-${index}`}
+                        className="grid h-fit rounded-lg bg-blue-50 p-2 text-xs/5 hover:bg-blue-100"
+                      >
+                        <dl>
+                          <dt className="sr-only">Personal best</dt>
+                          <dd className="order-1 font-semibold text-blue-700">
+                            PB = placholder
+                          </dd>
+                          <dt className="sr-only">Volunteer name</dt>
+                          <dd className="text-blue-500 group-hover:text-blue-700">
+                            <span>
+                              John Doe placeholder {volunteer.user.email}
+                            </span>
+                          </dd>
+                        </dl>
+                      </Link>
+                    ))}
+                </div>
+              ))}
+            </div>
+          </Fragment>
+        ))}
       </div>
     </div>
   );
-}
+};
+
+export default Calendar;
