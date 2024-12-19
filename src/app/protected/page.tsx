@@ -1,11 +1,8 @@
 import type { FunctionComponent } from "react";
 import Link from "next/link";
 import { permanentRedirect, redirect, RedirectType } from "next/navigation";
-import { addDays, nextSunday, subDays } from "date-fns";
 import { PlusIcon } from "lucide-react";
-import AccordionSection from "~/components/accordion-section";
 import Calendar from "~/components/calendar";
-import { Accordion } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
 import { createClient } from "~/utils/supabase/server";
 
@@ -26,11 +23,6 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
       RedirectType.replace,
     );
   }
-
-  const today = new Date();
-  const dates = Array.from({ length: 50 }, (_, i) =>
-    subDays(nextSunday(addDays(today, i * 7)), 1),
-  );
 
   const {
     data: { user },
@@ -71,19 +63,7 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
         Saturdays
       </h2>
 
-      <Accordion type="multiple">
-        {dates.map((date) => (
-          <AccordionSection
-            key={`accordion-item-${date.toString()}`}
-            data={data}
-            date={date}
-          />
-        ))}
-      </Accordion>
-
-      <div className="max-w-7xl">
-        <Calendar />
-      </div>
+      <Calendar data={data} />
     </div>
   );
 };
