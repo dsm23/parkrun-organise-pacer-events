@@ -15,15 +15,6 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
 
   const { parkrun } = await searchParams;
 
-  if (!parkrun) {
-    const urlSearchParams = new URLSearchParams({ parkrun: "Southend" });
-
-    permanentRedirect(
-      `/protected?${urlSearchParams.toString()}`,
-      RedirectType.replace,
-    );
-  }
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -32,10 +23,37 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
     return redirect("/sign-in");
   }
 
+  const profilesResponse = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("id", user.id)
+    .single();
+
+  if (!profilesResponse.data?.username) {
+    redirect("/protected/onboarding");
+  }
+
+  if (!parkrun) {
+    const res = await supabase
+      .from("profiles")
+      .select("defaultParkrun:locations(name)")
+      .eq("id", user.id)
+      .single();
+
+    const urlSearchParams = new URLSearchParams({
+      parkrun: res.data?.defaultParkrun?.name ?? "Southend",
+    });
+
+    permanentRedirect(
+      `/protected?${urlSearchParams.toString()}`,
+      RedirectType.replace,
+    );
+  }
+
   const res = await supabase
     .from("volunteer_nodes")
     .select(
-      "date, finishTime:finish_time, location:locations(name), user:profiles(email)",
+      "date, finishTime:finish_time, location:locations(name), user:profiles(personalBest:personal_best, username)",
     )
     .eq("locations.name", parkrun)
     .not("location", "is", null)
