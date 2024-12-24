@@ -42,7 +42,7 @@ services:
 
   kong:
     container_name: supabase-kong
-    image: kong:3.8.0
+    image: kong:3.9.0
     restart: unless-stopped
     # https://unix.stackexchange.com/a/294837
     entrypoint: bash -c 'eval "echo \"$$(cat /tmp/temp.yml)\"" > /tmp/kong.yml && /docker-entrypoint.sh kong docker-start'
@@ -76,7 +76,7 @@ services:
       - no-new-privileges
   auth:
     container_name: supabase-auth
-    image: supabase/gotrue:v2.165.1
+    image: supabase/gotrue:v2.167.0
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -187,7 +187,7 @@ services:
   realtime:
     # This container name looks inconsistent but is correct because realtime constructs tenant id by parsing the subdomain
     container_name: realtime-dev.supabase-realtime
-    image: supabase/realtime:v2.33.70
+    image: supabase/realtime:v2.33.72
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -373,7 +373,7 @@ services:
   # Comment out everything below this point if you are using an external Postgres database
   db:
     container_name: supabase-db
-    image: supabase/postgres:15.8.1.017
+    image: supabase/postgres:15.8.1.020
     healthcheck:
       test: pg_isready -U postgres -h localhost
       interval: 5s

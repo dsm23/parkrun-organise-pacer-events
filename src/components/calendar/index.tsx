@@ -22,7 +22,8 @@ type Props = {
       name: string | null;
     };
     user: {
-      email: string | null;
+      personalBest: string | null;
+      username: string | null;
     };
   }[];
 };
@@ -161,19 +162,17 @@ const Calendar: FunctionComponent<Props> = ({ data }) => {
                     .map((volunteer, index) => (
                       <Link
                         href="#"
-                        key={`${volunteer.user.email}-${index}`}
+                        key={`${volunteer.user.username}-${index}`}
                         className="grid h-fit rounded-lg bg-blue-50 p-2 text-xs/5 hover:bg-blue-100"
                       >
                         <dl>
                           <dt className="sr-only">Personal best</dt>
                           <dd className="order-1 font-semibold text-blue-700">
-                            PB = placholder
+                            PB = {volunteer.user.personalBest?.substring(3)}
                           </dd>
                           <dt className="sr-only">Volunteer name</dt>
                           <dd className="text-blue-500 group-hover:text-blue-700">
-                            <span>
-                              John Doe placeholder {volunteer.user.email}
-                            </span>
+                            <span>{volunteer.user.username}</span>
                           </dd>
                         </dl>
                       </Link>
