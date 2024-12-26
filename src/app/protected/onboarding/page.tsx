@@ -1,4 +1,7 @@
-import { permanentRedirect } from "next/navigation";
+"use client";
+
+import { permanentRedirect, useSearchParams } from "next/navigation";
+import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
 import { onboardingAction } from "~/app/actions";
 import { FormMessage } from "~/components/form-message";
 import { SubmitButton } from "~/components/submit-button";
@@ -13,30 +16,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { createClient } from "~/utils/supabase/server";
-import type { Message } from "~/components/form-message";
+import { useAuthenticatedUser } from "~/components/user";
+import useSupabaseBrowser from "~/hooks/use-supabase-browser";
+import getUsername from "~/queries/username";
 
-export default async function Onboarding(props: {
-  searchParams: Promise<Message>;
-}) {
-  const supabase = await createClient();
+const Onboarding = () => {
+  const searchParams = useSearchParams();
+  const supabase = useSupabaseBrowser();
+  const user = useAuthenticatedUser();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (user) {
-    const res = await supabase
-      .from("profiles")
-      .select("username")
-      .eq("id", user.id)
-      .single();
+  const res = useQuery(getUsername(supabase, user.id));
 
-    if (res.data?.username) {
-      permanentRedirect("/");
-    }
+  if (res.data?.username) {
+    permanentRedirect("/");
   }
-
-  const searchParams = await props.searchParams;
 
   return (
     <div className="grid place-items-center">
@@ -80,4 +73,6 @@ export default async function Onboarding(props: {
       </div>
     </div>
   );
-}
+};
+
+export default Onboarding;
