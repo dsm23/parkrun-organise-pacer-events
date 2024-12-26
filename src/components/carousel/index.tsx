@@ -14,8 +14,8 @@ import type {
   HTMLAttributes,
   KeyboardEvent,
 } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import useEmblaCarousel from "embla-carousel-react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import type { UseEmblaCarouselType } from "embla-carousel-react";
 import { cn } from "~/utils/cn";
 
