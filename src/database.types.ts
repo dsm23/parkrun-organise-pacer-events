@@ -61,6 +61,34 @@ export type Database = {
   };
   public: {
     Tables: {
+      channels: {
+        Row: {
+          created_by: string;
+          id: number;
+          inserted_at: string;
+          slug: string;
+        };
+        Insert: {
+          created_by: string;
+          id?: number;
+          inserted_at?: string;
+          slug: string;
+        };
+        Update: {
+          created_by?: string;
+          id?: number;
+          inserted_at?: string;
+          slug?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "channels_created_by_fkey";
+            columns: ["created_by"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       locations: {
         Row: {
           created_at: string;
@@ -82,26 +110,137 @@ export type Database = {
         };
         Relationships: [];
       };
+      messages: {
+        Row: {
+          channel_id: number;
+          id: number;
+          inserted_at: string;
+          message: string | null;
+          user_id: string;
+        };
+        Insert: {
+          channel_id: number;
+          id?: number;
+          inserted_at?: string;
+          message?: string | null;
+          user_id: string;
+        };
+        Update: {
+          channel_id?: number;
+          id?: number;
+          inserted_at?: string;
+          message?: string | null;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "messages_channel_id_fkey";
+            columns: ["channel_id"];
+            referencedRelation: "channels";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "messages_user_id_fkey";
+            columns: ["user_id"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       profiles: {
         Row: {
+          default_location_id: number | null;
           email: string | null;
           full_name: string | null;
           id: string;
+          personal_best: string | null;
           updated_at: string | null;
           username: string | null;
         };
         Insert: {
+          default_location_id?: number | null;
           email?: string | null;
           full_name?: string | null;
           id: string;
+          personal_best?: string | null;
           updated_at?: string | null;
           username?: string | null;
         };
         Update: {
+          default_location_id?: number | null;
           email?: string | null;
           full_name?: string | null;
           id?: string;
+          personal_best?: string | null;
           updated_at?: string | null;
+          username?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "profiles_default_location_id_fkey";
+            columns: ["default_location_id"];
+            referencedRelation: "locations";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      role_permissions: {
+        Row: {
+          id: number;
+          permission: Database["public"]["Enums"]["app_permission"];
+          role: Database["public"]["Enums"]["app_role"];
+        };
+        Insert: {
+          id?: number;
+          permission: Database["public"]["Enums"]["app_permission"];
+          role: Database["public"]["Enums"]["app_role"];
+        };
+        Update: {
+          id?: number;
+          permission?: Database["public"]["Enums"]["app_permission"];
+          role?: Database["public"]["Enums"]["app_role"];
+        };
+        Relationships: [];
+      };
+      user_roles: {
+        Row: {
+          id: number;
+          role: Database["public"]["Enums"]["app_role"];
+          user_id: string;
+        };
+        Insert: {
+          id?: number;
+          role: Database["public"]["Enums"]["app_role"];
+          user_id: string;
+        };
+        Update: {
+          id?: number;
+          role?: Database["public"]["Enums"]["app_role"];
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_user_id_fkey";
+            columns: ["user_id"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      users: {
+        Row: {
+          id: string;
+          status: Database["public"]["Enums"]["user_status"] | null;
+          username: string | null;
+        };
+        Insert: {
+          id: string;
+          status?: Database["public"]["Enums"]["user_status"] | null;
+          username?: string | null;
+        };
+        Update: {
+          id?: string;
+          status?: Database["public"]["Enums"]["user_status"] | null;
           username?: string | null;
         };
         Relationships: [];
@@ -151,10 +290,18 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      authorize: {
+        Args: {
+          requested_permission: Database["public"]["Enums"]["app_permission"];
+          user_id: string;
+        };
+        Returns: boolean;
+      };
     };
     Enums: {
-      [_ in never]: never;
+      app_permission: "channels.delete" | "messages.delete";
+      app_role: "admin" | "moderator";
+      user_status: "ONLINE" | "OFFLINE";
     };
     CompositeTypes: {
       [_ in never]: never;

@@ -1,22 +1,50 @@
+"use client";
+
 import type { FunctionComponent } from "react";
 import Link from "next/link";
-import { permanentRedirect, redirect, RedirectType } from "next/navigation";
+import {
+  permanentRedirect,
+  redirect,
+  RedirectType,
+  useSearchParams,
+} from "next/navigation";
+import {
+  useQuery,
+  useSubscription,
+} from "@supabase-cache-helpers/postgrest-react-query";
 import { PlusIcon } from "lucide-react";
 import Calendar from "~/components/calendar";
+import Spinner from "~/components/svgs/spinner";
 import { Button } from "~/components/ui/button";
-import { createClient } from "~/utils/supabase/server";
+import { useAuthenticatedUser } from "~/components/user";
+import useSupabaseBrowser from "~/hooks/use-supabase-browser";
+import getDefaultParkrun from "~/queries/default-parkrun";
+import getUsername from "~/queries/username";
+import getVolunteerNodes from "~/queries/volunteer-nodes";
 
 type Props = {
   searchParams: Promise<{ parkrun: string | string[] | undefined }>;
 };
 
-const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
-  const supabase = await createClient();
+const ProtectedPage: FunctionComponent<Props> = () => {
+  const searchParams = useSearchParams();
+  const supabase = useSupabaseBrowser();
+  const user = useAuthenticatedUser();
 
-  const { parkrun } = await searchParams;
+  const resUsername = useQuery(getUsername(supabase, user.id));
+
+  if (!resUsername.data?.username) {
+    redirect("/protected/onboarding");
+  }
+
+  const parkrun = searchParams.get("parkrun");
+
+  const resDefaultParkrun = useQuery(getDefaultParkrun(supabase, user.id));
 
   if (!parkrun) {
-    const urlSearchParams = new URLSearchParams({ parkrun: "Southend" });
+    const urlSearchParams = new URLSearchParams({
+      parkrun: resDefaultParkrun.data?.defaultParkrun?.name ?? "Southend",
+    });
 
     permanentRedirect(
       `/protected?${urlSearchParams.toString()}`,
@@ -24,24 +52,27 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
     );
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/sign-in");
-  }
-
-  const res = await supabase
-    .from("volunteer_nodes")
-    .select(
-      "date, finishTime:finish_time, location:locations(name), user:profiles(email)",
-    )
-    .eq("locations.name", parkrun)
-    .not("location", "is", null)
-    .order("finish_time", { ascending: true });
+  const res = useQuery(getVolunteerNodes(supabase, parkrun), {
+    // networkMode: "offlineFirst",
+  });
 
   const data = res.data ?? [];
+
+  useSubscription(
+    supabase,
+    "calendar",
+    {
+      event: "*",
+      table: "volunteer_nodes",
+      schema: "public",
+    },
+    ["id"],
+    {
+      callback: async () => {
+        await res.refetch();
+      },
+    },
+  );
 
   return (
     <div className="grid justify-stretch">
@@ -62,6 +93,12 @@ const ProtectedPage: FunctionComponent<Props> = async ({ searchParams }) => {
       <h2 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
         Saturdays
       </h2>
+
+      {res.isPending && (
+        <div>
+          loading calendar data <Spinner className="text-foreground" />
+        </div>
+      )}
 
       <Calendar data={data} />
     </div>

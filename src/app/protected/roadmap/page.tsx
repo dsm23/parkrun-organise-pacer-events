@@ -40,13 +40,15 @@ export default function Roadmap() {
         </CheckboxWithLabel>
         <CheckboxWithLabel>Add profile page</CheckboxWithLabel>
         <CheckboxWithLabel>Fix sign out button in sidebar</CheckboxWithLabel>
-        <CheckboxWithLabel>Fix calendar month view</CheckboxWithLabel>
-        <CheckboxWithLabel>Add calendar day view</CheckboxWithLabel>
-        <CheckboxWithLabel>
+        <CheckboxWithLabel checked>Fix calendar month view</CheckboxWithLabel>
+        <CheckboxWithLabel checked>Add calendar day view</CheckboxWithLabel>
+        <CheckboxWithLabel checked>
           Add option to change default location from Southend
         </CheckboxWithLabel>
         <CheckboxWithLabel>Include parkrun ID</CheckboxWithLabel>
-        <CheckboxWithLabel>Include parkrun personal best</CheckboxWithLabel>
+        <CheckboxWithLabel checked>
+          Include parkrun personal best
+        </CheckboxWithLabel>
         <CheckboxWithLabel>
           Add double click on volunteer event to alter
         </CheckboxWithLabel>
@@ -55,7 +57,7 @@ export default function Roadmap() {
         <CheckboxWithLabel>Facebook login</CheckboxWithLabel>
         <CheckboxWithLabel>Microsoft login</CheckboxWithLabel>
         <CheckboxWithLabel>Apple login</CheckboxWithLabel>
-        <CheckboxWithLabel>GitHub login</CheckboxWithLabel>
+        <CheckboxWithLabel checked>GitHub login</CheckboxWithLabel>
         <CheckboxWithLabel>DM me for in-app support</CheckboxWithLabel>
       </div>
     </div>
