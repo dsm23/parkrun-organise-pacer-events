@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  signInWithFacebookAction,
   signInWithGithubAction,
   signInWithGoogleAction,
   signUpAction,
@@ -7,6 +8,7 @@ import {
 import { FormMessage } from "~/components/form-message";
 import OrContinueWith from "~/components/or-continue-with";
 import { SubmitButton } from "~/components/submit-button";
+import Facebook from "~/components/svgs/facebook";
 import GitHub from "~/components/svgs/github";
 import Google from "~/components/svgs/google";
 import { Input } from "~/components/ui/input";
@@ -77,6 +79,18 @@ export default async function Signup(props: {
           pendingText="Signing In..."
         >
           <GitHub /> Sign in with GitHub
+        </SubmitButton>
+      </form>
+
+      <form
+        className="flex min-w-64 flex-1 flex-col"
+        action={signInWithFacebookAction}
+      >
+        <SubmitButton
+          className="flex items-center gap-x-2"
+          pendingText="Signing In..."
+        >
+          <Facebook /> Sign in with Facebook
         </SubmitButton>
       </form>
     </>
