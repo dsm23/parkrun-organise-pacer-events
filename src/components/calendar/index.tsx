@@ -162,7 +162,7 @@ const Calendar: FunctionComponent<Props> = ({ data }) => {
                     )
                     .map((volunteer, index) => (
                       <Link
-                        href="#"
+                        href={`/protected/volunteer/${volunteer.id}`}
                         key={`${volunteer.user.username}-${index}`}
                         className="grid h-fit rounded-lg bg-blue-50 p-2 text-xs/5 hover:bg-blue-100"
                       >
