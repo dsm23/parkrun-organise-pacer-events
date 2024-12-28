@@ -241,6 +241,31 @@ export const signInWithGithubAction = async () => {
   return redirect("/protected");
 };
 
+export const signInWithFacebookAction = async () => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "facebook",
+    options: {
+      redirectTo: `${process.env.SITE_URL}/auth/callback`,
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
+      },
+    },
+  });
+
+  if (error) {
+    return encodedRedirect("error", "/sign-in", error.message);
+  }
+
+  if (data.url) {
+    redirect(data.url);
+  }
+
+  return redirect("/protected");
+};
+
 export const signOutAction = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
