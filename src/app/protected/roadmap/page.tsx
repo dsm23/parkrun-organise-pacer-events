@@ -54,7 +54,7 @@ export default function Roadmap() {
         </CheckboxWithLabel>
         <CheckboxWithLabel>Add GDPR policy</CheckboxWithLabel>
         <CheckboxWithLabel>Add 2FA authentication</CheckboxWithLabel>
-        <CheckboxWithLabel>Facebook login</CheckboxWithLabel>
+        <CheckboxWithLabel checked>Facebook login</CheckboxWithLabel>
         <CheckboxWithLabel>Microsoft login</CheckboxWithLabel>
         <CheckboxWithLabel>Apple login</CheckboxWithLabel>
         <CheckboxWithLabel checked>GitHub login</CheckboxWithLabel>
