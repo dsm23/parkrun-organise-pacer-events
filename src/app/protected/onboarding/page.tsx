@@ -34,7 +34,7 @@ const Onboarding = () => {
   return (
     <div className="grid place-items-center">
       <div className="mx-auto space-y-8">
-        <h1 className="text-2xl font-medium">Volunteer Form</h1>
+        <h1 className="text-2xl font-medium">Onboarding</h1>
         <form className="grid space-y-6" action={onboardingAction}>
           <fieldset className="space-y-1">
             <Label htmlFor="username">
