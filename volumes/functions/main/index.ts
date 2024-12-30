@@ -1,4 +1,5 @@
-import { serve } from "https://deno.land/std@0.131.0/http/server.ts";
+/// <reference types="./global.d.ts" />
+
 import * as jose from "https://deno.land/x/jose@v4.14.4/index.ts";
 
 console.info("main function started");
@@ -30,7 +31,7 @@ async function verifyJWT(jwt: string): Promise<boolean> {
   return true;
 }
 
-serve(async (req: Request) => {
+Deno.serve(async (req: Request): Promise<Response> => {
   if (req.method !== "OPTIONS" && VERIFY_JWT) {
     try {
       const token = getAuthToken(req);
@@ -42,12 +43,14 @@ serve(async (req: Request) => {
           headers: { "Content-Type": "application/json" },
         });
       }
-    } catch (e) {
-      console.error(e);
-      return new Response(JSON.stringify({ msg: e.toString() }), {
-        status: 401,
-        headers: { "Content-Type": "application/json" },
-      });
+    } catch (err) {
+      console.error(err);
+      if (err instanceof Error) {
+        return new Response(JSON.stringify({ msg: err.toString() }), {
+          status: 401,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
     }
   }
 
@@ -84,9 +87,16 @@ serve(async (req: Request) => {
       envVars,
     });
     return await worker.fetch(req);
-  } catch (e) {
-    const error = { msg: e.toString() };
-    return new Response(JSON.stringify(error), {
+  } catch (err) {
+    if (err instanceof Error) {
+      const error = { msg: err.toString() };
+      return new Response(JSON.stringify(error), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    return new Response("A server error occurred", {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
