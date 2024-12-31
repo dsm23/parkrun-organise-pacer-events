@@ -1,10 +1,4 @@
 import Link from "next/link";
-import {
-  signInAction,
-  signInWithFacebookAction,
-  signInWithGithubAction,
-  signInWithGoogleAction,
-} from "~/app/actions";
 import { FormMessage } from "~/components/form-message";
 import OrContinueWith from "~/components/or-continue-with";
 import { SubmitButton } from "~/components/submit-button";
@@ -14,9 +8,15 @@ import Google from "~/components/svgs/google";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import type { Message } from "~/components/form-message";
+import { signInAction, signInWithOAuthAction } from "./actions";
 
 export default async function Login(props: { searchParams: Promise<Message> }) {
   const searchParams = await props.searchParams;
+
+  const signInWithFacebookAction = signInWithOAuthAction.bind(null, "facebook");
+  const signInWithGithubAction = signInWithOAuthAction.bind(null, "github");
+  const signInWithGoogleAction = signInWithOAuthAction.bind(null, "google");
+
   return (
     <>
       <form className="min-w-64 flex-1" action={signInAction}>

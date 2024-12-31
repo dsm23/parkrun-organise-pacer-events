@@ -2,7 +2,6 @@
 
 import { permanentRedirect, useSearchParams } from "next/navigation";
 import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
-import { onboardingAction } from "~/app/actions";
 import { FormMessage } from "~/components/form-message";
 import { SubmitButton } from "~/components/submit-button";
 import { Input } from "~/components/ui/input";
@@ -19,6 +18,7 @@ import {
 import { useAuthenticatedUser } from "~/components/user";
 import useSupabaseBrowser from "~/hooks/use-supabase-browser";
 import getUsername from "~/queries/username";
+import { onboardingAction } from "./actions";
 
 const Onboarding = () => {
   const searchParams = useSearchParams();

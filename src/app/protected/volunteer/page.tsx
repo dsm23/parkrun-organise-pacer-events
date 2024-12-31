@@ -1,5 +1,4 @@
 import { addDays, format, nextSunday, subDays } from "date-fns";
-import { addVolunteerAction } from "~/app/actions";
 import { FormMessage } from "~/components/form-message";
 import { SubmitButton } from "~/components/submit-button";
 import { Label } from "~/components/ui/label";
@@ -13,9 +12,10 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import type { Message } from "~/components/form-message";
+import { addVolunteerAction } from "./actions";
 import ParkrunSelectField from "./parkrun-select-field";
 
-export default async function ResetPassword(props: {
+export default async function AddVolunteer(props: {
   searchParams: Promise<Message>;
 }) {
   const searchParams = await props.searchParams;
