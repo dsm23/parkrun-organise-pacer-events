@@ -1,10 +1,4 @@
 import Link from "next/link";
-import {
-  signInWithFacebookAction,
-  signInWithGithubAction,
-  signInWithGoogleAction,
-  signUpAction,
-} from "~/app/actions";
 import { FormMessage } from "~/components/form-message";
 import OrContinueWith from "~/components/or-continue-with";
 import { SubmitButton } from "~/components/submit-button";
@@ -14,6 +8,7 @@ import Google from "~/components/svgs/google";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import type { Message } from "~/components/form-message";
+import { signUpAction, signUpWithOAuthAction } from "./actions";
 
 export default async function Signup(props: {
   searchParams: Promise<Message>;
@@ -26,6 +21,10 @@ export default async function Signup(props: {
       </div>
     );
   }
+
+  const signUpWithFacebookAction = signUpWithOAuthAction.bind(null, "facebook");
+  const signUpWithGithubAction = signUpWithOAuthAction.bind(null, "github");
+  const signUpWithGoogleAction = signUpWithOAuthAction.bind(null, "google");
 
   return (
     <>
@@ -60,7 +59,7 @@ export default async function Signup(props: {
 
       <form
         className="flex min-w-64 flex-1 flex-col"
-        action={signInWithGoogleAction}
+        action={signUpWithGoogleAction}
       >
         <SubmitButton
           className="flex items-center gap-x-2"
@@ -72,7 +71,7 @@ export default async function Signup(props: {
 
       <form
         className="flex min-w-64 flex-1 flex-col"
-        action={signInWithGithubAction}
+        action={signUpWithGithubAction}
       >
         <SubmitButton
           className="flex items-center gap-x-2"
@@ -84,7 +83,7 @@ export default async function Signup(props: {
 
       <form
         className="flex min-w-64 flex-1 flex-col"
-        action={signInWithFacebookAction}
+        action={signUpWithFacebookAction}
       >
         <SubmitButton
           className="flex items-center gap-x-2"

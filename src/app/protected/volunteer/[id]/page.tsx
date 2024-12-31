@@ -3,13 +3,13 @@
 import { useParams, useSearchParams } from "next/navigation";
 import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
 import { format } from "date-fns";
-import { deleteVolunteerAction } from "~/app/actions";
 import { FormMessage } from "~/components/form-message";
 import { SubmitButton } from "~/components/submit-button";
 import Spinner from "~/components/svgs/spinner";
 import { useAuthenticatedUser } from "~/components/user";
 import useSupabaseBrowser from "~/hooks/use-supabase-browser";
 import getVolunteerNode from "~/queries/volunteer-individual";
+import { deleteVolunteerAction } from "./actions";
 
 const IndividualVolunteerNodePage = () => {
   const params = useParams<{ id: string }>();
