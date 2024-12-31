@@ -7,12 +7,12 @@ import { createClient } from "~/utils/supabase/server";
 import { encodedRedirect } from "~/utils/utils";
 
 export const signUpAction = async (formData: FormData) => {
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
-  const email = formData.get("email")?.toString();
-
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
-  const password = formData.get("password")?.toString();
   const supabase = await createClient();
+
+  const fullName = formData.get("fullName") as string;
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
   const origin = (await headers()).get("origin") ?? "";
 
   if (!email || !password) {
@@ -27,6 +27,9 @@ export const signUpAction = async (formData: FormData) => {
     email,
     password,
     options: {
+      data: {
+        full_name: fullName,
+      },
       emailRedirectTo: `${origin}/auth/callback`,
     },
   });
