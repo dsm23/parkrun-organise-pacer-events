@@ -40,16 +40,42 @@ export default async function Signup(props: {
           </Link>
         </p>
         <div className="mt-8 flex flex-col gap-2 [&>input]:mb-3">
-          <Label htmlFor="email">Email</Label>
-          <Input name="email" placeholder="you@example.com" required />
-          <Label htmlFor="password">Password</Label>
-          <Input
-            type="password"
-            name="password"
-            placeholder="Your password"
-            minLength={6}
-            required
-          />
+          <fieldset className="space-y-1">
+            <Label htmlFor="fullName">Full Name</Label>
+            <Input
+              id="fullName"
+              name="fullName"
+              placeholder="John Doe"
+              aria-describedby="full-name-description"
+              required
+            />
+            <small
+              id="full-name-description"
+              className="text-[0.8rem] text-muted-foreground"
+            >
+              This value will display in the calendar
+            </small>
+          </fieldset>
+          <fieldset className="space-y-1">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              required
+            />
+          </fieldset>
+          <fieldset className="space-y-1">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Your password"
+              minLength={6}
+              required
+            />
+          </fieldset>
           <SubmitButton pendingText="Signing up...">Sign up</SubmitButton>
           <FormMessage message={searchParams} />
         </div>
