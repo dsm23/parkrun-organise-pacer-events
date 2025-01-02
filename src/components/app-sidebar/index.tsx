@@ -2,7 +2,7 @@
 
 import type { FunctionComponent } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { ChevronRightIcon, ChevronUp, User2 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import {
@@ -24,6 +24,7 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "~/components/ui/sidebar";
+import useSupabaseBrowser from "~/hooks/use-supabase-browser";
 
 type Props = {
   user: User | null;
@@ -31,6 +32,13 @@ type Props = {
 
 const AppSidebar: FunctionComponent<Props> = ({ user }) => {
   const searchParams = useSearchParams();
+  const supabase = useSupabaseBrowser();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+
+    return redirect("/sign-in");
+  };
 
   return (
     <Sidebar collapsible="icon">
@@ -85,7 +93,7 @@ const AppSidebar: FunctionComponent<Props> = ({ user }) => {
                 </DropdownMenuItem>
 
                 <DropdownMenuItem>
-                  <span>Sign out</span>
+                  <button onClick={handleSignOut}>Sign out</button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
