@@ -5,7 +5,11 @@ const getUsername = (
   supabase: Awaited<ReturnType<typeof createClient>>,
   userId: User["id"],
 ) => {
-  return supabase.from("profiles").select("username").eq("id", userId).single();
+  return supabase
+    .from("profiles")
+    .select("id, username")
+    .eq("id", userId)
+    .single();
 };
 
 export default getUsername;
