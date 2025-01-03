@@ -9,14 +9,12 @@ const client = new SMTPClient({
   connection: {
     hostname: Deno.env.get("SMTP_HOST") as string,
     port: parseInt(Deno.env.get("SMTP_PORT") as string, 10),
-    // tls: true,
-    // auth: {
-    //   username: null
-    //   password: null,
-    // },
-  },
-  debug: {
-    allowUnsecure: true,
+    tls: true,
+    auth: {
+      username: Deno.env.get("SMTP_USER") as string,
+      // password: Deno.env.get("SMTP_PASS") as string,
+      password: Deno.env.get("RESEND_API_KEY") as string,
+    },
   },
 });
 
@@ -50,8 +48,7 @@ Deno.serve(async (req) => {
       };
     };
 
-    const from =
-      "David Murdoch <onboarding@parkrun.davidmurdochconsulting.site>";
+    const from = `${Deno.env.get("SMTP_SENDER_NAME") as string} <${Deno.env.get("SMTP_ADMIN_EMAIL") as string}>`;
 
     if (email_action_type === "signup") {
       const html = await render(
