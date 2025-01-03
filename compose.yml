@@ -318,6 +318,7 @@ services:
       analytics:
         condition: service_healthy
     environment:
+      RESEND_API_KEY: ${RESEND_API_KEY}
       SEND_EMAIL_HOOK_SECRET: ${SEND_EMAIL_HOOK_SECRET}
       SMTP_ADMIN_EMAIL: ${SMTP_ADMIN_EMAIL}
       SMTP_HOST: ${SMTP_HOST}
