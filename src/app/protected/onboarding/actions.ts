@@ -9,7 +9,6 @@ export const onboardingAction = async (formData: FormData) => {
 
   const defaultLocation = formData.get("defaultLocation") as string;
   const personalBest = formData.get("personalBest") as string;
-  const username = formData.get("username") as string;
 
   const { data } = await supabase.auth.getUser();
   if (data.user) {
@@ -18,7 +17,6 @@ export const onboardingAction = async (formData: FormData) => {
       .update({
         default_location_id: Number(defaultLocation),
         personal_best: `00:${personalBest}`,
-        username,
       })
       .eq("id", data.user.id);
 

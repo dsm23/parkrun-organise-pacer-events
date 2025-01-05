@@ -19,7 +19,7 @@ import { Button } from "~/components/ui/button";
 import { useAuthenticatedUser } from "~/components/user";
 import useSupabaseBrowser from "~/hooks/use-supabase-browser";
 import getDefaultParkrun from "~/queries/default-parkrun";
-import getUsername from "~/queries/username";
+import getPersonalBest from "~/queries/personal-best";
 import getVolunteerNodes from "~/queries/volunteer-nodes";
 
 type Props = {
@@ -31,9 +31,9 @@ const ProtectedPage: FunctionComponent<Props> = () => {
   const supabase = useSupabaseBrowser();
   const user = useAuthenticatedUser();
 
-  const resUsername = useQuery(getUsername(supabase, user.id));
+  const resPersonalData = useQuery(getPersonalBest(supabase, user.id));
 
-  if (!resUsername.data?.username) {
+  if (!resPersonalData.data?.personalBest) {
     redirect("/protected/onboarding");
   }
 
