@@ -17,7 +17,7 @@ import {
 } from "~/components/ui/select";
 import { useAuthenticatedUser } from "~/components/user";
 import useSupabaseBrowser from "~/hooks/use-supabase-browser";
-import getUsername from "~/queries/username";
+import getPersonalBest from "~/queries/personal-best";
 import { onboardingAction } from "./actions";
 
 const Onboarding = () => {
@@ -25,9 +25,9 @@ const Onboarding = () => {
   const supabase = useSupabaseBrowser();
   const user = useAuthenticatedUser();
 
-  const res = useQuery(getUsername(supabase, user.id));
+  const res = useQuery(getPersonalBest(supabase, user.id));
 
-  if (res.data?.username) {
+  if (res.data?.personalBest) {
     permanentRedirect("/");
   }
 
@@ -36,13 +36,6 @@ const Onboarding = () => {
       <div className="mx-auto space-y-8">
         <h1 className="text-2xl font-medium">Onboarding</h1>
         <form className="grid space-y-6" action={onboardingAction}>
-          <fieldset className="space-y-1">
-            <Label htmlFor="username">
-              What username would you like to appear as in the public calendar
-            </Label>
-            <Input id="username" name="username" />
-          </fieldset>
-
           <fieldset className="space-y-1">
             <Label htmlFor="defaultLocation">
               Which location would you like to be your default parkrun?

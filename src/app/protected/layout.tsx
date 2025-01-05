@@ -11,7 +11,7 @@ import Header from "~/components/header";
 import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
 import { UserProvider } from "~/components/user";
 import getDefaultParkrun from "~/queries/default-parkrun";
-import getUsername from "~/queries/username";
+import getPersonalBest from "~/queries/personal-best";
 import { createClient } from "~/utils/supabase/server";
 
 type Props = {
@@ -35,7 +35,7 @@ const Layout: FunctionComponent<Props> = async ({ children }) => {
     prefetchQuery(
       queryClient,
       // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
-      getUsername(supabase, user?.id as string),
+      getPersonalBest(supabase, user?.id as string),
     ),
   ]);
 
