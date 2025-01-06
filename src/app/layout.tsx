@@ -1,4 +1,5 @@
 import type { FunctionComponent, ReactNode } from "react";
+import { PublicEnvScript } from "next-runtime-env";
 import { ThemeProvider } from "next-themes";
 import { GeistSans } from "geist/font/sans";
 
@@ -23,6 +24,9 @@ type Props = {
 const RootLayout: FunctionComponent<Props> = ({ children }) => {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
+      <head>
+        <PublicEnvScript />
+      </head>
       <body className="bg-background text-foreground">
         <TanstackQueryClientProvider>
           <ThemeProvider
