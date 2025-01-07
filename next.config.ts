@@ -1,6 +1,5 @@
 import withBundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
-import { env } from "./env";
 
 const nextConfig: NextConfig = {
   devIndicators: {
@@ -22,7 +21,7 @@ const nextConfig: NextConfig = {
 };
 
 export default () => {
-  const plugins = [withBundleAnalyzer({ enabled: env.ANALYZE })];
+  const plugins = [withBundleAnalyzer({ enabled: process.env.ANALYZE })];
 
   const config = plugins.reduce((acc, next) => next(acc), {
     ...nextConfig,
