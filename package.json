@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "prepare": "node .husky/install.mjs",
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "fmt": "prettier --write .",
@@ -33,7 +33,6 @@
     "@supabase-cache-helpers/postgrest-react-query": "^1.11.4",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.47.8",
-    "@t3-oss/env-nextjs": "^0.11.1",
     "@tanstack/react-query": "^5.62.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -45,8 +44,7 @@
     "next-runtime-env": "^3.2.2",
     "next-themes": "^0.4.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "zod": "^3.23.8"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
