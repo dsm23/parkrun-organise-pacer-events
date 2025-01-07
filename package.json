@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "prepare": "node .husky/install.mjs",
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "fmt": "prettier --write .",
