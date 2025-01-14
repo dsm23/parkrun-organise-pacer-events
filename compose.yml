@@ -431,7 +431,7 @@ services:
 
   vector:
     container_name: supabase-vector
-    image: timberio/vector:0.43.1-alpine
+    image: timberio/vector:0.44.0-alpine
     healthcheck:
       test:
         [
