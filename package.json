@@ -70,7 +70,7 @@
     "@testing-library/react": "^16.1.0",
     "@total-typescript/ts-reset": "^0.6.1",
     "@types/jest": "^29.5.14",
-    "@types/node": "22.10.5",
+    "@types/node": "22.10.6",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.1",
     "autoprefixer": "10.4.20",
@@ -91,7 +91,7 @@
     "lint-staged": "^15.2.10",
     "mkdirp": "^3.0.1",
     "npm-run-all2": "^7.0.0",
-    "postcss": "8.4.49",
+    "postcss": "8.5.1",
     "prettier": "^3.4.2",
     "prettier-plugin-css-order": "^2.1.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
@@ -106,5 +106,5 @@
     "typescript": "5.7.3",
     "typescript-eslint": "^8.18.0"
   },
-  "packageManager": "pnpm@9.15.3"
+  "packageManager": "pnpm@9.15.4"
 }

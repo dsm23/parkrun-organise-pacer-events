@@ -278,7 +278,7 @@ services:
 
   imgproxy:
     container_name: supabase-imgproxy
-    image: darthsim/imgproxy:v3.27.0
+    image: darthsim/imgproxy:v3.27.1
     healthcheck:
       test: ["CMD", "imgproxy", "health"]
       timeout: 5s
@@ -312,7 +312,7 @@ services:
 
   functions:
     container_name: supabase-edge-functions
-    image: supabase/edge-runtime:v1.66.3
+    image: supabase/edge-runtime:v1.66.5
     restart: unless-stopped
     depends_on:
       analytics:
@@ -385,7 +385,7 @@ services:
   # Comment out everything below this point if you are using an external Postgres database
   db:
     container_name: supabase-db
-    image: supabase/postgres:15.8.1.025
+    image: supabase/postgres:15.8.1.027
     healthcheck:
       test: pg_isready -U postgres -h localhost
       interval: 5s
@@ -431,7 +431,7 @@ services:
 
   vector:
     container_name: supabase-vector
-    image: timberio/vector:0.43.1-alpine
+    image: timberio/vector:0.44.0-alpine
     healthcheck:
       test:
         [
