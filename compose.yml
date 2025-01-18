@@ -170,7 +170,7 @@ services:
 
   rest:
     container_name: supabase-rest
-    image: postgrest/postgrest:v12.2.3
+    image: postgrest/postgrest:v12.2.4
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
