@@ -76,7 +76,7 @@ services:
       - no-new-privileges
   auth:
     container_name: supabase-auth
-    image: supabase/gotrue:v2.167.0
+    image: supabase/gotrue:v2.168.0
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
